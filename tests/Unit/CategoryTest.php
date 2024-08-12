@@ -6,11 +6,13 @@ use App\Models\User;
 use App\Models\Category;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use Tests\TestCase;
 
 class CategoryTest extends TestCase
 {
     use RefreshDatabase;
+    use MakesGraphQLRequests;
 
     public function login($role = 'user')
     {
@@ -54,5 +56,44 @@ class CategoryTest extends TestCase
         $this->postJson('/categories/create', $categoryData)->assertStatus(200);
 
         $this->assertCount(1, Category::all());
+    }
+
+    public function test_get_categories()
+    {
+        $this->login('user');
+        $mainCategory = Category::factory()->create();
+        $subcategory = Category::factory()->create(['parent_id' => $mainCategory->id]);
+
+        $response = $this->graphQL('
+        {
+            categories {
+                id
+                name
+                subcategories{
+                    id
+                    name
+                    description
+                }
+            }
+        }
+        ');
+
+        $response->assertJson([
+            'data' => [
+                'categories' => [
+                    [
+                        'id' => $mainCategory->id,
+                        'name' => $mainCategory->name,
+                        'subcategories' => [
+                            [
+                                'id' => $subcategory->id,
+                                'name' => $subcategory->name,
+                                'description' => $subcategory->description,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }
