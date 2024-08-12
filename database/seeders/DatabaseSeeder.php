@@ -23,10 +23,12 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        Category::factory(5)->create();
-        for ($i = 0; $i < 5; $i++) {
+        $mainCategoriesCount = 5;
+        $mainCategories = Category::factory($mainCategoriesCount)->create();
+
+        for ($i = 0; $i < $mainCategoriesCount; $i++) {
             Category::factory(5)->create([
-                'parent_id' => fake()->numberBetween(1, 5),
+                'parent_id' => fake()->numberBetween($mainCategories[0]->id, $mainCategories[$mainCategoriesCount - 1]->id),
             ]);
         }
     }
