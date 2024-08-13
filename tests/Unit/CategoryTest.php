@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\User;
 use App\Models\Category;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -13,18 +12,6 @@ class CategoryTest extends TestCase
 {
     use RefreshDatabase;
     use MakesGraphQLRequests;
-
-    public function login($role = 'user')
-    {
-        $user = User::factory()->create([
-            'role' => $role,
-        ]);
-
-        $this->postJson('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
-    }
 
     public function test_create_category_unauthorized()
     {
