@@ -1,10 +1,14 @@
-"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime
     @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
 type Query {
     categories: [Category!]!
-        @field(resolver: "App\\GraphQL\\Queries\\CategoryQuery@index")
+
+    products(
+        category: ID = null
+        search: String = null
+        sortBy: SortCriteria = CREATED_AT_DESC
+    ): [Product!]! @paginate(builder: "App\\GraphQL\\Queries\\Products@resolve")
 }
 
 type Category {
@@ -15,4 +19,21 @@ type Category {
     subcategories: [Category!]!
     created_at: DateTime!
     updated_at: DateTime!
+}
+
+type Product {
+    id: ID!
+    name: String!
+    description: String!
+    price: Float!
+    category_id: ID!
+    image_url: String!
+    created_at: DateTime!
+}
+
+enum SortCriteria {
+    PRICE_ASC @enum(value: ["price", "asc"])
+    PRICE_DESC @enum(value: ["price", "desc"])
+    CREATED_AT_ASC @enum(value: ["created_at", "asc"])
+    CREATED_AT_DESC @enum(value: ["created_at", "desc"])
 }

@@ -7,12 +7,12 @@ namespace App\GraphQL\Queries;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Collection;
 
-final readonly class CategoryQuery
+final readonly class Categories
 {
-    /**
+    /** 
      * @return Collection<int, Category>
      */
-    public function index(): Collection
+    public function __invoke()
     {
         return Category::with('subcategories')->whereNull('parent_id')->get();
     }
