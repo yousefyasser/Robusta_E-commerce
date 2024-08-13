@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Product;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,12 +25,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $mainCategoriesCount = 5;
-        $mainCategories = Category::factory($mainCategoriesCount)->create();
+        $mainCategoriesIds = Category::factory($mainCategoriesCount)->create()->pluck('id')->toArray();
 
         for ($i = 0; $i < $mainCategoriesCount; $i++) {
             Category::factory(5)->create([
-                'parent_id' => fake()->numberBetween($mainCategories[0]->id, $mainCategories[$mainCategoriesCount - 1]->id),
+                'parent_id' => fake()->randomElement($mainCategoriesIds),
             ]);
         }
+
+        Product::factory(10)->create();
     }
 }

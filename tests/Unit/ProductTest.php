@@ -13,6 +13,7 @@ class ProductTest extends TestCase
 
     public function test_create_product_unauthorized()
     {
+        $this->seed();
         $newProduct = Product::factory()->make()->toArray();
 
         $this->post('/products/create', $newProduct)->assertStatus(401);
@@ -29,9 +30,12 @@ class ProductTest extends TestCase
 
     public function test_create_product_successfully()
     {
+        $this->seed();
+        $prevProductCount = Product::count();
         $newProduct = Product::factory()->make()->toArray();
 
         $this->login('admin');
         $this->post('/products/create', $newProduct)->assertStatus(200);
+        $this->assertCount($prevProductCount + 1, Product::all());
     }
 }
