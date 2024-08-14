@@ -14,14 +14,6 @@ final readonly class Categories
      */
     public function __invoke()
     {
-        return Category::with('subcategories')->whereNull('parent_id')->get();
-    }
-
-    /**
-     * @return Collection<int, Category>
-     */
-    public function subcategories(Category $category): Collection
-    {
-        return $category->subcategories;
+        return Category::with('subcategories.products')->whereNull('parent_id')->get();
     }
 }
