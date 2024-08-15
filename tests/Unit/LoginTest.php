@@ -4,11 +4,13 @@ namespace Tests\Unit;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
     use RefreshDatabase;
+    use MakesGraphQLRequests;
 
     public function test_logs_in_validation()
     {
@@ -48,5 +50,62 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertStatus(200);
+    }
+
+    public function test_register_validation()
+    {
+        $user = [
+            'name' => '',
+            'email' => 'invalidEmail',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ];
+
+        $response = $this->get_register_mutation_response($user);
+
+        $response->assertJson([
+            'errors' => [
+                [
+                    'extensions' => [
+                        'validation' => [
+                            'input.name' => ['The input.name field is required.'],
+                            'input.email' => ['Email must be in a valid format: test@example.com'],
+                            'input.password' => ['Password must contain at least one uppercase letter and one number.'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function test_register_successfully()
+    {
+        $user = [
+            'name' => 'John Doe',
+            'email' => 'john@doe.com',
+            'password' => 'Password1',
+            'password_confirmation' => 'Password1',
+        ];
+
+        $this->get_register_mutation_response($user);
+
+        $userData = User::all()->where('email', $user['email']);
+
+        $this->assertNotEmpty($userData);
+    }
+
+    public function get_register_mutation_response($user): \Illuminate\Testing\TestResponse
+    {
+        return $this->graphQL('
+            mutation ($input: CreateUserInput!) {
+                registerUser(input: $input) {
+                    id
+                    name
+                    email
+                }
+            }
+        ', [
+            'input' => $user
+        ]);
     }
 }

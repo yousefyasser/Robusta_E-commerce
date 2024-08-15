@@ -11,6 +11,28 @@ type Query {
     ): [Product!]! @paginate(builder: "App\\GraphQL\\Queries\\Products@resolve")
 }
 
+type Mutation {
+    registerUser(input: CreateUserInput! @spread): User!
+}
+
+input CreateUserInput @validator {
+    name: String
+    email: String
+    password: String
+    password_confirmation: String
+}
+
+type User {
+    id: ID!
+    name: String!
+    email: String!
+    email_verified_at: DateTime
+    password: String!
+    role: UserRole!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
 type Category {
     id: ID!
     name: String!
@@ -30,6 +52,11 @@ type Product {
     category_id: ID!
     image_url: String!
     created_at: DateTime!
+}
+
+enum UserRole {
+    ADMIN @enum(value: "admin")
+    USER @enum(value: "user")
 }
 
 enum SortCriteria {
