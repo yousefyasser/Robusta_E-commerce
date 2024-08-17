@@ -18,21 +18,10 @@ class ShoppingCartFactory extends Factory
      */
     public function definition(): array
     {
-        $users = User::all();
-        $products = Product::all();
-
-        if ($users->isEmpty()) {
-            $users[] = User::factory()->create();
-        }
-
-        if ($products->isEmpty()) {
-            $products[] = Product::factory()->create();
-        }
-
-        $product = $products->random();
+        $product = Product::factory()->create();
 
         return [
-            'user_id' => $users->random()->id,
+            'user_id' => User::factory(),
             'product_id' => $product->id,
             'quantity' => $this->faker->numberBetween(1, $product->stock),
         ];

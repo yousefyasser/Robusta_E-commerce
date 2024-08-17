@@ -17,10 +17,10 @@ class CategoryTest extends TestCase
     {
         $categoryData = Category::factory()->make()->toArray();
 
-        $this->postJson('/categories/create', $categoryData)->assertStatus(401);
+        $this->postJson('/api/categories/create', $categoryData)->assertStatus(401);
 
         $this->login('user');
-        $this->postJson('/categories/create', $categoryData)->assertStatus(401);
+        $this->postJson('/api/categories/create', $categoryData)->assertStatus(401);
     }
 
     public function test_create_category_validation()
@@ -29,9 +29,9 @@ class CategoryTest extends TestCase
 
         $categoryData = Category::factory()->make(['parent_id' => 1])->toArray();
 
-        $this->postJson('/categories/create', [])->assertStatus(422);
+        $this->postJson('/api/categories/create', [])->assertStatus(422);
 
-        $this->postJson('/categories/create', $categoryData)->assertStatus(422);
+        $this->postJson('/api/categories/create', $categoryData)->assertStatus(422);
     }
 
     public function test_create_category_successfully()
@@ -40,14 +40,13 @@ class CategoryTest extends TestCase
 
         $categoryData = Category::factory()->make()->toArray();
 
-        $this->postJson('/categories/create', $categoryData)->assertStatus(200);
+        $this->postJson('/api/categories/create', $categoryData)->assertStatus(200);
 
         $this->assertCount(1, Category::all());
     }
 
     public function test_get_categories()
     {
-        $this->login('user');
         $mainCategory = Category::factory()->create();
         $subcategory = Category::factory()->create(['parent_id' => $mainCategory->id]);
 

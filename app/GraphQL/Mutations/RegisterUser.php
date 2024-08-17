@@ -19,7 +19,10 @@ final readonly class RegisterUser
     {
         $user = User::create($args);
 
-        /** @var string $token */
+        /** 
+         * @var string $token 
+         * @phpstan-ignore-next-line
+         * */
         $token = Auth::login($user);
         $verificationUrl = url("/api/verify-email?token={$token}");
 

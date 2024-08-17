@@ -13,7 +13,7 @@ abstract class TestCase extends BaseTestCase
             'role' => $role,
         ]);
 
-        $this->postJson('/login', [
+        return $this->postJson('/api/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);

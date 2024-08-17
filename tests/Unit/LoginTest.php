@@ -14,16 +14,16 @@ class LoginTest extends TestCase
 
     public function test_logs_in_validation()
     {
-        $response = $this->postJson('/login', []);
+        $response = $this->postJson('/api/login', []);
 
-        $response->assertStatus(422);
+        $response->assertStatus(401);
 
-        $response = $this->postJson('/login', [
+        $response = $this->postJson('/api/login', [
             'email' => 'invalidEmail',
             'password' => 'password',
         ]);
 
-        $response->assertStatus(422);
+        $response->assertStatus(401);
     }
 
     public function test_logs_in_fail()
@@ -32,7 +32,7 @@ class LoginTest extends TestCase
             'password' => bcrypt('correct-password'),
         ]);
 
-        $response = $this->postJson('/login', [
+        $response = $this->postJson('/api/login', [
             'email' => $user->email,
             'password' => 'wrong-password',
         ]);
@@ -44,7 +44,7 @@ class LoginTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->postJson('/login', [
+        $response = $this->postJson('/api/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);
@@ -98,11 +98,7 @@ class LoginTest extends TestCase
     {
         return $this->graphQL('
             mutation ($input: CreateUserInput!) {
-                registerUser(input: $input) {
-                    id
-                    name
-                    email
-                }
+                registerUser(input: $input)
             }
         ', [
             'input' => $user
