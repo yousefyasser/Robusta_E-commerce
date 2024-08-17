@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -72,5 +73,13 @@ class User extends Authenticatable implements JWTSubject
     public function cart(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'shopping_carts')->withPivot('quantity');
+    }
+
+    /**
+     * @return HasMany<Address>
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 }

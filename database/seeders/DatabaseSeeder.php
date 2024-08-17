@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Product;
@@ -16,8 +17,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(10)->create();
-
         $mainCategoriesCount = 5;
         $mainCategoriesIds = Category::factory($mainCategoriesCount)->create()->pluck('id')->toArray();
 
@@ -27,7 +26,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        Product::factory(10)->create();
         ShoppingCart::factory(10)->create();
+        Address::factory(10)->create();
     }
 }
