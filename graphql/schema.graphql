@@ -16,7 +16,7 @@ type Mutation {
 
     verifyEmail: [String!]! @guard
 
-    addToCart(product_id: ID!, quantity: Int!): [String!]! @guard @validator
+    addToCart(product_id: ID!, quantity: Int!): Product @guard @validator
 }
 
 input CreateUserInput @validator {

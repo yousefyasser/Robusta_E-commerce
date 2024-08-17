@@ -32,7 +32,7 @@ class ProductFactory extends Factory
             'description' => fake()->sentence(),
             'price' => fake()->randomFloat(2, 1, 100),
             'category_id' => $subcategories->random()->id,
-            'stock' => fake()->randomNumber(2),
+            'stock' => fake()->randomNumber(2, true),
             'image_url' => fake()->imageUrl()
         ];
     }
