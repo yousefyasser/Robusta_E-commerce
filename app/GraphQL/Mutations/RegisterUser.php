@@ -7,26 +7,29 @@ namespace App\GraphQL\Mutations;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EmailVerified;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 final readonly class RegisterUser
 {
     /** 
      * @param  array{}  $args 
-     * @return User
+     * @return array<string, string|User>
      * */
-    public function __invoke(null $_, array $args): User
+    public function __invoke(null $_, array $args): array
     {
-        $token = Str::random(60);
-
         $user = User::create($args);
-        $user->remember_token = $token;
-        $user->save();
 
+        /** @var string $token */
+        $token = Auth::login($user);
         $verificationUrl = url("/api/verify-email?token={$token}");
 
         Mail::to($user->email)->queue(new EmailVerified($verificationUrl));
 
-        return $user;
+        return [
+            'status' => 'success',
+            'message' => 'User created successfully, please verify your email',
+            'user' => $user,
+            'token' => $token,
+        ];
     }
 }

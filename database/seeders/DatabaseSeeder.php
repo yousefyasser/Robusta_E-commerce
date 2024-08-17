@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        // Product::factory(10)->create();
+        Product::factory(10)->create();
         ShoppingCart::factory(10)->create();
     }
 }

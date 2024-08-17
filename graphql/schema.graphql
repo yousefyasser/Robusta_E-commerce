@@ -12,9 +12,9 @@ type Query {
 }
 
 type Mutation {
-    registerUser(input: CreateUserInput! @spread): User!
+    registerUser(input: CreateUserInput! @spread): [String!]!
 
-    verifyEmail(token: String!): Boolean!
+    verifyEmail: [String!]! @guard
 }
 
 input CreateUserInput @validator {
@@ -54,6 +54,15 @@ type Product {
     category_id: ID!
     image_url: String!
     created_at: DateTime!
+}
+
+type ShoppingCart {
+    id: ID!
+    product_id: ID!
+    quantity: Int!
+    user_id: ID!
+    created_at: DateTime!
+    updated_at: DateTime!
 }
 
 enum UserRole {
