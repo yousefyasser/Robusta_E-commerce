@@ -17,6 +17,8 @@ type Mutation {
     verifyEmail: [String!]! @guard
 
     addToCart(product_id: ID!, quantity: Int!): Product @guard @validator
+
+    createAddress(addressData: CreateAddressInput!): ID! @guard
 }
 
 input CreateUserInput @validator {
@@ -24,6 +26,18 @@ input CreateUserInput @validator {
     email: String
     password: String
     password_confirmation: String
+}
+
+input CreateAddressInput @validator {
+    label: String
+    recipient_name: String
+    address_line_1: String
+    address_line_2: String
+    city: String
+    state: String
+    postal_code: String
+    country: String
+    phone_number: String
 }
 
 type User {
