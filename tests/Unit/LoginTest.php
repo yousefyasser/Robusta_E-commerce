@@ -2,6 +2,8 @@
 
 namespace Tests\Unit;
 
+use Illuminate\Support\Arr;
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Nuwave\Lighthouse\Testing\MakesGraphQLRequests;
@@ -11,6 +13,17 @@ class LoginTest extends TestCase
 {
     use RefreshDatabase;
     use MakesGraphQLRequests;
+
+    public function get_register_mutation_response($user): \Illuminate\Testing\TestResponse
+    {
+        return $this->graphQL('
+            mutation ($input: CreateUserInput!) {
+                registerUser(input: $input)
+            }
+        ', [
+            'input' => $user
+        ]);
+    }
 
     public function test_logs_in_validation()
     {
@@ -94,14 +107,47 @@ class LoginTest extends TestCase
         $this->assertNotEmpty($userData);
     }
 
-    public function get_register_mutation_response($user): \Illuminate\Testing\TestResponse
+    public function test_create_address_validation()
     {
-        return $this->graphQL('
-            mutation ($input: CreateUserInput!) {
-                registerUser(input: $input)
+        $this->login('user');
+
+        $response = $this->graphQL('
+            mutation ($addressData: CreateAddressInput!) {
+                createAddress(addressData: $addressData)
             }
         ', [
-            'input' => $user
+            'addressData' => [
+                'label' => '',
+            ]
         ]);
+
+        $response->assertJson([
+            'errors' => [
+                [
+                    'extensions' => [
+                        'validation' => [
+                            'addressData.label' => ['The label field is required.'],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    public function test_create_address_successfully()
+    {
+        $this->login('user');
+
+        $addressData = Address::factory()->create()->attributesToArray();
+
+        $response = $this->graphQL('
+            mutation ($addressData: CreateAddressInput!) {
+                createAddress(addressData: $addressData) 
+            }
+        ', [
+            'addressData' => Arr::except($addressData, ['user_id', 'id'])
+        ])->json('data.createAddress');
+
+        $this->assertequals($response, $addressData['id'] + 1);
     }
 }
