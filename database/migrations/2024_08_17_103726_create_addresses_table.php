@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('postal_code');
             $table->string('country');
             $table->string('phone_number');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
