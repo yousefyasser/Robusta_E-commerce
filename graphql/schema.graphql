@@ -18,7 +18,12 @@ type Mutation {
 
     addToCart(product_id: ID!, quantity: Int!): Product @guard @validator
 
-    createAddress(addressData: CreateAddressInput!): ID! @guard
+    createAddress(addressData: CreateAddressInput! @spread): ID! @guard
+
+    checkout(address_id: ID!, payment_method_id: ID!): ID!
+        @guard
+        @inject(context: "user.cart", name: "cart_items")
+        @validator
 }
 
 input CreateUserInput @validator {
@@ -68,6 +73,7 @@ type Product {
     description: String!
     price: Float!
     category_id: ID!
+    stock: Int!
     image_url: String!
     created_at: DateTime!
 }

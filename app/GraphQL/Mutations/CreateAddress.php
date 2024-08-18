@@ -14,8 +14,8 @@ final readonly class CreateAddress
      */
     public function __invoke(null $_, array $args): int
     {
-        $args['addressData']['user_id'] = Auth::id();
-        $address = Address::create($args['addressData']);
+        $args['user_id'] = Auth::id();
+        $address = Address::create($args);
         return $address->id;
     }
 }

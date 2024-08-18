@@ -12,6 +12,8 @@ class Order extends Model
     /** @use HasFactory<\Database\Factories\OrderFactory> */
     use HasFactory;
 
+    protected $guarded = [];
+
     /** @return HasMany<OrderItem> */
     public function items(): HasMany
     {
