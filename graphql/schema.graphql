@@ -9,6 +9,10 @@ type Query {
         search: String = null
         sortBy: SortCriteria = CREATED_AT_DESC
     ): [Product!]! @paginate(builder: "App\\GraphQL\\Queries\\Products@resolve")
+
+    orderHistory(status: String, sort: String): [Order!]!
+        @guard
+        @paginate(builder: "App\\GraphQL\\Queries\\OrderHistory")
 }
 
 type Mutation {
@@ -85,6 +89,44 @@ type ShoppingCart {
     user_id: ID!
     created_at: DateTime!
     updated_at: DateTime!
+}
+
+type Address {
+    label: String!
+    recipient_name: String!
+    address_line_1: String!
+    address_line_2: String!
+    city: String!
+    state: String!
+    postal_code: String!
+    country: String!
+    phone_number: String!
+}
+
+type Order {
+    id: ID!
+    status: String!
+    total: Float!
+    items: [OrderItem!]!
+    address: Address!
+    payment_method: PaymentMethod!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type OrderItem {
+    id: ID!
+    order_id: ID!
+    product: Product!
+    quantity: Int!
+    price: Float!
+    total: Float!
+}
+
+type PaymentMethod {
+    id: ID!
+    type: String!
+    last_four: String
 }
 
 enum UserRole {

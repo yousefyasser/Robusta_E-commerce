@@ -8,7 +8,6 @@ use App\Exceptions\InvalidOrderException;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\ShoppingCart;
 use App\Mail\OrderPlaced;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -27,6 +26,10 @@ final readonly class Checkout
         // TODO: extract email verification to a separate guard
         if (!$user->email_verified_at) {
             throw new InvalidOrderException('Email not verified');
+        }
+
+        if (!$user->cart->count()) {
+            throw new InvalidOrderException('Cart is empty');
         }
 
         $total = 0;

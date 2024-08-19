@@ -17,7 +17,7 @@ final class CheckoutValidator extends Validator
     {
         return [
             'address_id' => ['required', 'exists:addresses,id'],
-            'payment_method_id' => ['required'],
+            'payment_method_id' => ['required', 'exists:payment_methods,id'],
         ];
     }
 }
