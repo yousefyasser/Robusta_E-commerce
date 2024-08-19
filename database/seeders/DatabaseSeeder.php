@@ -5,8 +5,9 @@ namespace Database\Seeders;
 use App\Models\Address;
 use App\Models\User;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\PaymentMethod;
 use App\Models\ShoppingCart;
+use App\Models\Product;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -27,6 +28,9 @@ class DatabaseSeeder extends Seeder
         }
 
         ShoppingCart::factory(10)->create();
-        Address::factory(10)->create();
+        User::factory(10)->create()->each(function (User $user) {
+            $user->addresses()->save(Address::factory()->make());
+            $user->payment_methods()->save(PaymentMethod::factory()->make());
+        });
     }
 }

@@ -31,4 +31,10 @@ class Order extends Model
     {
         return $this->belongsTo(Address::class);
     }
+
+    /** @return BelongsTo<PaymentMethod, self> */
+    public function payment_method(): BelongsTo
+    {
+        return $this->belongsTo(PaymentMethod::class);
+    }
 }

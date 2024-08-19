@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users');
             $table->foreignId('address_id')->references('id')->on('addresses');
-            $table->foreignId('payment_method_id');
+            $table->foreignId('payment_method_id')->references('id')->on('payment_methods');
             $table->string('status');
             $table->float('total');
             $table->timestamps();
