@@ -2,12 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Address;
 use App\Models\User;
-use App\Models\Category;
-use App\Models\PaymentMethod;
-use App\Models\ShoppingCart;
 use App\Models\Product;
+use App\Models\PaymentMethod;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,19 +15,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $mainCategoriesCount = 5;
-        $mainCategoriesIds = Category::factory($mainCategoriesCount)->create()->pluck('id')->toArray();
+        $this->call([CategorySeeder::class]);
 
-        for ($i = 0; $i < 5 * $mainCategoriesCount; $i++) {
-            Category::factory()->create([
-                'parent_id' => fake()->randomElement($mainCategoriesIds),
-            ]);
-        }
+        $users = User::factory(5)
+            ->hasAddresses(3)
+            ->has(PaymentMethod::factory(2), 'payment_methods')
+            ->hasAttached(Product::factory(5), ['quantity' => 1], 'cart')
+            ->create();
 
-        ShoppingCart::factory(10)->create();
-        User::factory(10)->create()->each(function (User $user) {
-            $user->addresses()->save(Address::factory()->make());
-            $user->payment_methods()->save(PaymentMethod::factory()->make());
-        });
+        $this->callWith(OrderSeeder::class, ['users' => $users]);
     }
 }
