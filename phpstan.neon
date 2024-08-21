@@ -4,6 +4,9 @@ includes:
 
 parameters:
 
+    ignoreErrors:
+        - '#Access to an undefined property App\\Models\\Product::\$pivot.#'
+
     paths:
         - app
         - config

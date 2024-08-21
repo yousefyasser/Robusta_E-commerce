@@ -78,7 +78,7 @@ type Product {
     price: Float!
     category_id: ID!
     stock: Int!
-    image_url: String!
+    image_url: String
     created_at: DateTime!
 }
 

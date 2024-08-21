@@ -11,6 +11,8 @@ class OrderSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * 
+     * @param \Illuminate\Support\Collection<int, \App\Models\User> $users
      */
     public function run($users): void
     {

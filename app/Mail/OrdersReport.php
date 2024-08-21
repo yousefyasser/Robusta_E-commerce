@@ -16,6 +16,9 @@ class OrdersReport extends Mailable
 
     /**
      * Create a new message instance.
+     * 
+     * @param \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $orders
+     * @param string $reportSpreadsheet
      */
     public function __construct(public $orders, public $reportSpreadsheet)
     {
@@ -28,7 +31,7 @@ class OrdersReport extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Daily Order Report - ' . now(env('APP_TIMEZONE', 'UTC'))->format('d-m-Y'),
+            subject: 'Daily Order Report - ' . now()->format('d-m-Y'),
         );
     }
 

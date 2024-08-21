@@ -31,12 +31,12 @@ class SendOrdersReport extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         $io = new SymfonyStyle($this->input, new ConsoleOutput);
 
         $adminEmails = User::where('role', 'admin')->pluck('email')->toArray();
-        $orders = Order::where('created_at', '>=', now(env('APP_TIMEZONE', 'UTC'))->subDay())
+        $orders = Order::where('created_at', '>=', now()->subDay())
             ->with('user')->get();
 
         if (!$adminEmails) {

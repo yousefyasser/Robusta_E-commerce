@@ -7,29 +7,42 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
+/**
+ * @implements WithMapping<Order>
+ */
 class OrdersExport implements FromQuery, WithMapping, WithHeadings
 {
     /**
      * Fetch all orders with their related data.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Illuminate\Database\Eloquent\Builder<Order>.
      */
     public function query()
     {
-        return Order::query()->where('created_at', '>=', now(env('APP_TIMEZONE', 'UTC'))->subDay());
+        return Order::query()->where('created_at', '>=', now()->subDay());
     }
 
     /**
      * Map the orders data to the desired format.
      *
-     * @param  mixed  $order
-     * @return array
+     * @param  Order  $order
+     * @return array<mixed>
      */
     public function map($order): array
     {
         $mappedOrders = [];
 
+        /** @var \App\Models\Address $address */
+        $address = $order->address;
+
+        /** @var \App\Models\PaymentMethod $payment_method */
+        $payment_method = $order->payment_method;
+
         foreach ($order->items as $order_item) {
+
+            /** @var \App\Models\Product $product */
+            $product = $order_item->product;
+
             $mappedOrders[] = [
                 'Order ID' => $order->id,
                 'User ID' => $order->user_id,
@@ -37,21 +50,21 @@ class OrdersExport implements FromQuery, WithMapping, WithHeadings
                 'Total' => $order->total,
 
                 'Product ID' => $order_item->product_id,
-                'Product Name' => $order_item->product->name,
+                'Product Name' => $product->name,
                 'Product Quantity' => $order_item->quantity,
                 'Product Price' => $order_item->price,
                 'Product Total' => $order_item->price * $order_item->quantity,
 
-                'Address Name' => $order->address->label,
-                'Address line 1' => $order->address->address_line_1,
-                'Address line 2' => $order->address->address_line_2,
-                'Address City' => $order->address->city,
-                'Address State' => $order->address->state,
-                'Address Postal Code' => $order->address->postal_code,
-                'Address Country' => $order->address->country,
-                'Address Phone Number' => $order->address->phone_number,
+                'Address Name' => $address->label,
+                'Address line 1' => $address->address_line_1,
+                'Address line 2' => $address->address_line_2,
+                'Address City' => $address->city,
+                'Address State' => $address->state,
+                'Address Postal Code' => $address->postal_code,
+                'Address Country' => $address->country,
+                'Address Phone Number' => $address->phone_number,
 
-                'Payment Method' => $order->payment_method->type,
+                'Payment Method' => $payment_method->type,
 
                 'Order Created At' => $order->created_at,
                 'Order Updated At' => $order->updated_at,
@@ -64,7 +77,7 @@ class OrdersExport implements FromQuery, WithMapping, WithHeadings
     /**
      * Set the headings for the exported data.
      *
-     * @return array
+     * @return array<string>
      */
     public function headings(): array
     {
