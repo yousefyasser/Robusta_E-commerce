@@ -18,7 +18,7 @@
     -   [GraphQL API Endpoints](#user-content-graphql-api-endpoints)
         -   [Queries](#user-content-queries)
         -   [Mutations](#user-content-mutations)
--   [📦 Resources](#user-content-resources)
+-   [📦 Resources](#user-content--resources)
 
 ## 📖 Introduction
 
@@ -294,6 +294,361 @@ All REST API endpoints are for admins only except Login.
                 }
             }
         ]
+    }
+    ```
+
+</details>
+
+### GraphQL API Endpoints
+
+All GraphQL API endpoints are for users only and can be accessed via a POST request to /graphql
+
+#### Queries
+
+<details>
+    <summary>
+        Categories
+    </summary>
+
+-   Description: Retrieves all categories with their subcategories.
+-   **Request Body**:
+    ```graphql
+    {
+        categories {
+            id
+            name
+            subcategories {
+                id
+                name
+                description
+            }
+        }
+    }
+    ```
+-   **Response**:
+    ```json
+    {
+        "data": {
+            "categories": [
+                {
+                    "id": "1",
+                    "name": "Dairy",
+                    "subcategories": [
+                        {
+                            "id": "2",
+                            "name": "Milk",
+                            "description": "This is Milk"
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+    ```
+
+</details>
+
+<details>
+    <summary>
+        Products
+    </summary>
+
+-   **Description**: Retrieves all Product details with pagination.
+-   **Query Parameters**:
+    -   **first**: gets only the first specified number of products from the result
+    -   **page**: gets result from specified page after pagination
+    -   **category**: filter products by category id
+    -   **search**: filter products by name
+    -   **sortBy**: sort the result by a product attribute
+-   **Request Body**:
+    ```graphql
+    {
+        products(first: 1, category: 6, search: "Milk", sortBy: PRICE_ASC) {
+            data {
+                id
+                name
+                description
+                price
+                category_id
+                stock
+                image_url
+                created_at
+            }
+        }
+    }
+    ```
+-   **Response**:
+    ```json
+    {
+        "data": {
+            "products": {
+                "data": [
+                    {
+                        "id": "101",
+                        "name": "milk",
+                        "description": "this is dairy",
+                        "price": 45.5,
+                        "category_id": 6,
+                        "stock": 5,
+                        "image_url": null,
+                        "created_at": "2024-08-21 08:28:31"
+                    }
+                ]
+            }
+        }
+    }
+    ```
+
+</details>
+
+<details>
+    <summary>
+        Order History
+    </summary>
+
+-   **Description**: Retrieves all previous orders made by the authenticated user.
+-   **Query Parameters**:
+    -   **first**: gets only the first specified number of orders from the result
+    -   **page**: gets result from specified page after pagination
+    -   **status**: filter products by status
+    -   **sort**: sort the result by an order attribute
+-   **Request Body**:
+    ```graphql
+    {
+        orderHistory(
+            status: "pending"
+            sort: "created_at_desc"
+            first: 1
+            page: 2
+        ) {
+            data {
+                id
+                status
+                total
+                items {
+                    product {
+                        name
+                    }
+                    total
+                }
+                address {
+                    address_line_1
+                }
+                payment_method {
+                    type
+                }
+                created_at
+                updated_at
+            }
+        }
+    }
+    ```
+-   **Response**:
+    ```json
+    {
+        "data": {
+            "orderHistory": {
+                "data": [
+                    {
+                        "id": "11",
+                        "status": "pending",
+                        "total": 5215.1,
+                        "items": [
+                            {
+                                "product": {
+                                    "name": "temporibus"
+                                },
+                                "total": 5215.1
+                            }
+                        ],
+                        "address": {
+                            "address_line_1": "243 Marcella Ports"
+                        },
+                        "payment_method": {
+                            "type": "PayPal"
+                        },
+                        "created_at": "2024-08-21 08:15:08",
+                        "updated_at": "2024-08-21 08:15:08"
+                    }
+                ]
+            }
+        }
+    }
+    ```
+
+</details>
+
+#### Mutations
+
+<details>
+    <summary>
+        Registeration
+    </summary>
+
+-   **Description**: Registers a new user.
+-   **Request Body**:
+
+    ```graphql
+    mutation ($input: CreateUserInput!) {
+        registerUser(input: $input)
+    }
+    ```
+
+    -   Variables
+
+    ```json
+    {
+        "input": {
+            "name": "name",
+            "email": "username@example.com",
+            "password": "Password123",
+            "password_confirmation": "Password123"
+        }
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "data": {
+            "registerUser": ["status", "message", "user data", "JWT"]
+        }
+    }
+    ```
+
+</details>
+
+<details>
+    <summary>
+        Email Verification
+    </summary>
+
+-   **Description**: Verifies the user's email address.
+-   **Request Body**:
+
+    ```graphql
+    mutation {
+        verifyEmail
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "data": {
+            "verifyEmail": ["status", "message", "user data"]
+        }
+    }
+    ```
+
+</details>
+
+<details>
+    <summary>
+        Add to cart
+    </summary>
+
+-   **Description**: Add a product to user's cart.
+-   **Query Parameters**:
+    -   product_id: ID of product to add to cart
+    -   quantity: How much of that product to add to cart
+-   **Request Body**:
+
+    ```graphql
+    mutation {
+        addToCart(product_id: 6, quantity: 3) {
+            id
+            name
+            price
+            stock
+        }
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "data": {
+            "addToCart": {
+                "id": "6",
+                "name": "consequatur",
+                "price": 74.19,
+                "stock": 98
+            }
+        }
+    }
+    ```
+
+</details>
+
+<details>
+    <summary>
+        Create Address
+    </summary>
+
+-   **Description**: Add a new address for the user.
+-   **Request Body**:
+
+    ```graphql
+    mutation ($addressData: CreateAddressInput!) {
+        createAddress(addressData: $addressData)
+    }
+    ```
+
+    -   Variables
+
+    ```json
+    {
+        "addressData": {
+            "label": "a",
+            "recipient_name": "b",
+            "address_line_1": "c",
+            "address_line_2": "d",
+            "state": "e",
+            "city": "f",
+            "country": "g",
+            "postal_code": "h",
+            "phone_number": "i"
+        }
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "data": {
+            "createAddress": "16"
+        }
+    }
+    ```
+
+</details>
+
+<details>
+    <summary>
+        Checkout
+    </summary>
+
+-   **Description**: Buy all products in cart with provided payment method and address.
+-   **Request Body**:
+
+    ```graphql
+    mutation {
+        checkout(address_id: 1, payment_method_id: 1)
+    }
+    ```
+
+-   **Response**:
+
+    ```json
+    {
+        "data": {
+            "checkout": "16"
+        }
     }
     ```
 
