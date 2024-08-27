@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\Order;
 
@@ -12,9 +13,9 @@ class OrderController extends Controller
      * Retrieve a paginated list of orders based on the provided request parameters.
      *
      * @param Request $request.
-     * @return LengthAwarePaginator<Order>
+     * @return JsonResponse
      */
-    public function index(Request $request): LengthAwarePaginator
+    public function index(Request $request): JsonResponse
     {
         $orders = Order::with('items.product', 'address', 'payment_method');
 
@@ -49,6 +50,10 @@ class OrderController extends Controller
             return $order;
         });
 
-        return $paginatedOrders;
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Orders retrieved successfully',
+            'data' => $paginatedOrders,
+        ]);
     }
 }

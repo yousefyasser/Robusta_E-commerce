@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use App\Models\Category;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class CategoryController extends Controller
 {
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResponse
     {
         try {
             $request->validate([
@@ -23,11 +23,19 @@ class CategoryController extends Controller
                 ]);
             }
         } catch (ValidationException $e) {
-            return response($e->errors(), 422);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
         }
 
         $newCategory = Category::create($request->only('name', 'description', 'parent_id'));
 
-        return response($newCategory);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Category created successfully',
+            'data' => $newCategory,
+        ]);
     }
 }

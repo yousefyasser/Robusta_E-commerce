@@ -16,7 +16,11 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Incorrect email or password'
+                'message' => 'Incorrect email or password',
+                'errors' => [
+                    'email' => ['Invalid credentials'],
+                    'password' => ['Invalid credentials'],
+                ],
             ], 401);
         }
 
@@ -24,8 +28,11 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'user' => $user,
-            'token' => $token,
+            'message' => 'Login successful',
+            'data' => [
+                'user' => $user,
+                'token' => $token,
+            ]
         ]);
     }
 }

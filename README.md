@@ -148,16 +148,19 @@ All REST API endpoints are for admins only except Login.
     ```json
     {
         "status": "success",
-        "user": {
-            "id": 6,
-            "name": "John Doe",
-            "email": "username@example.com",
-            "email_verified_at": null,
-            "role": "user",
-            "created_at": "2024-08-21T05:18:20.000000Z",
-            "updated_at": "2024-08-21T05:18:20.000000Z"
-        },
-        "token": "JWT"
+        "message": "Login successful",
+        "data": {
+            "user": {
+                "id": 44,
+                "name": "John Doe",
+                "email": "yousefyasser@gmal.com",
+                "email_verified_at": null,
+                "role": "user",
+                "created_at": "2024-08-27T10:29:29.000000Z",
+                "updated_at": "2024-08-27T10:29:29.000000Z"
+            },
+            "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzI0NzU0NTg2LCJleHAiOjE3MjQ3NTgxODYsIm5iZiI6MTcyNDc1NDU4NiwianRpIjoiNVlJcXZTV2ROZlJIbHJObiIsInN1YiI6IjQ0IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.HUeDT1Orp0ImLYRN6CSUv0n7zlPgYfHS6cwJmGgph50"
+        }
     }
     ```
 
@@ -181,12 +184,16 @@ All REST API endpoints are for admins only except Login.
 -   **Response**:
     ```json
     {
-        "id": 31,
-        "name": "Milk",
-        "description": "This is Milk",
-        "parent_id": 1,
-        "updated_at": "2024-08-21T05:34:35.000000Z",
-        "created_at": "2024-08-21T05:34:35.000000Z"
+        "status": "success",
+        "message": "Category created successfully",
+        "data": {
+            "name": "Milk",
+            "description": "This is Milk",
+            "parent_id": null,
+            "updated_at": "2024-08-27T10:35:28.000000Z",
+            "created_at": "2024-08-27T10:35:28.000000Z",
+            "id": 192
+        }
     }
     ```
 
@@ -212,14 +219,18 @@ All REST API endpoints are for admins only except Login.
 -   **Response**:
     ```json
     {
-        "id": 101,
-        "name": "Milk",
-        "description": "This is Milk",
-        "price": 45.5,
-        "category_id": 6,
-        "stock": 5,
-        "created_at": "2024-08-21T05:28:31.000000Z",
-        "updated_at": "2024-08-21T05:28:31.000000Z"
+        "status": "success",
+        "message": "Product created successfully",
+        "data": {
+            "name": "milk",
+            "description": "this is dairy",
+            "price": 45.5,
+            "category_id": 192,
+            "stock": 5,
+            "updated_at": "2024-08-27T10:37:21.000000Z",
+            "created_at": "2024-08-27T10:37:21.000000Z",
+            "id": 604
+        }
     }
     ```
 
@@ -237,63 +248,68 @@ All REST API endpoints are for admins only except Login.
     -   **sort**: Sort Orders by a specific column
     -   **status**: Filter Orders by their status
 -   **Response**:
+
     ```json
     {
-        "current_page": 1,
-        "data": [
-            {
-                "id": 3,
-                "user_id": 1,
-                "address_id": 3,
-                "payment_method_id": 1,
-                "status": "pending",
-                "total": 105.87,
-                "created_at": "2024-08-21T05:15:07.000000Z",
-                "updated_at": "2024-08-21T05:15:07.000000Z",
-                "items": [
-                    {
-                        "id": 11,
-                        "order_id": 3,
-                        "product_id": 36,
-                        "quantity": 7,
-                        "price": 409.86,
-                        "created_at": "2024-08-21T05:15:08.000000Z",
-                        "updated_at": "2024-08-21T05:15:08.000000Z",
-                        "total": 2869.02,
-                        "product": {
-                            "id": 36,
-                            "name": "vero",
-                            "description": "Quam maxime perspiciatis vel voluptatem praesentium at id.",
-                            "price": 23.83,
-                            "category_id": 29,
-                            "stock": 94,
-                            "image_url": "https://via.placeholder.com/640x480.png/00ffdd?text=corrupti",
-                            "created_at": "2024-08-21T05:15:07.000000Z",
-                            "updated_at": "2024-08-21T05:15:07.000000Z"
-                        }
-                    }
-                ],
-                "address": {
+        "status": "success",
+        "message": "Orders retrieved successfully",
+        "data": {
+            "current_page": 1,
+            "data": [
+                {
                     "id": 3,
-                    "label": "expedita",
-                    "recipient_name": "Brittany Lindgren",
-                    "address_line_1": "34833 Eichmann Stream Apt. 062",
-                    "address_line_2": "Apt. 935",
-                    "city": "South Maximoside",
-                    "state": "New Jersey",
-                    "postal_code": "62491-8853",
-                    "country": "Norway",
-                    "phone_number": "920.997.0276",
-                    "user_id": 1
-                },
-                "payment_method": {
-                    "id": 1,
                     "user_id": 1,
-                    "type": "Credit Card",
-                    "last_four": "1945"
+                    "address_id": 3,
+                    "payment_method_id": 1,
+                    "status": "pending",
+                    "total": 105.87,
+                    "created_at": "2024-08-21T05:15:07.000000Z",
+                    "updated_at": "2024-08-21T05:15:07.000000Z",
+                    "items": [
+                        {
+                            "id": 11,
+                            "order_id": 3,
+                            "product_id": 36,
+                            "quantity": 7,
+                            "price": 409.86,
+                            "created_at": "2024-08-21T05:15:08.000000Z",
+                            "updated_at": "2024-08-21T05:15:08.000000Z",
+                            "total": 2869.02,
+                            "product": {
+                                "id": 36,
+                                "name": "vero",
+                                "description": "Quam maxime perspiciatis vel voluptatem praesentium at id.",
+                                "price": 23.83,
+                                "category_id": 29,
+                                "stock": 94,
+                                "image_url": "https://via.placeholder.com/640x480.png/00ffdd?text=corrupti",
+                                "created_at": "2024-08-21T05:15:07.000000Z",
+                                "updated_at": "2024-08-21T05:15:07.000000Z"
+                            }
+                        }
+                    ],
+                    "address": {
+                        "id": 3,
+                        "label": "expedita",
+                        "recipient_name": "Brittany Lindgren",
+                        "address_line_1": "34833 Eichmann Stream Apt. 062",
+                        "address_line_2": "Apt. 935",
+                        "city": "South Maximoside",
+                        "state": "New Jersey",
+                        "postal_code": "62491-8853",
+                        "country": "Norway",
+                        "phone_number": "920.997.0276",
+                        "user_id": 1
+                    },
+                    "payment_method": {
+                        "id": 1,
+                        "user_id": 1,
+                        "type": "Credit Card",
+                        "last_four": "1945"
+                    }
                 }
-            }
-        ]
+            ]
+        }
     }
     ```
 

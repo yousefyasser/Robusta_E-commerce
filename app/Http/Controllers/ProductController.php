@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
 use App\Models\Product;
 
 class ProductController extends Controller
 {
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResponse
     {
         try {
             $request->validate([
@@ -22,10 +22,18 @@ class ProductController extends Controller
                 'image_url' => ['nullable', 'url'],
             ]);
         } catch (ValidationException $e) {
-            return response($e->errors(), 422);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Validation failed',
+                'errors' => $e->errors()
+            ], 422);
         }
 
         $newProduct = Product::create($request->all());
-        return response($newProduct, 200);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Product created successfully',
+            'data' => $newProduct
+        ], 200);
     }
 }
