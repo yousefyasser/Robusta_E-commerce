@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Http\Requests\OrderRequest;
 use App\Models\Order;
 
 class OrderController extends Controller
@@ -15,7 +15,7 @@ class OrderController extends Controller
      * @param Request $request.
      * @return JsonResponse
      */
-    public function index(Request $request): JsonResponse
+    public function index(OrderRequest $request): JsonResponse
     {
         $orders = Order::with('items.product', 'address', 'payment_method');
 

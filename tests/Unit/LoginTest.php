@@ -29,14 +29,14 @@ class LoginTest extends TestCase
     {
         $response = $this->postJson('/api/login', []);
 
-        $response->assertStatus(401);
+        $response->assertStatus(422);
 
         $response = $this->postJson('/api/login', [
             'email' => 'invalidEmail',
             'password' => 'password',
         ]);
 
-        $response->assertStatus(401);
+        $response->assertStatus(422);
     }
 
     public function test_logs_in_fail()
