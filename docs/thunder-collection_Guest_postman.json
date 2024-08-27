@@ -1,0 +1,120 @@
+{
+    "info": {
+        "_postman_id": "0b18b163-97aa-4ca5-bbce-f9098d39ccd3",
+        "name": "Guest",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "categories",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzI0MjE3NzMxLCJleHAiOjE3MjQyMjEzMzEsIm5iZiI6MTcyNDIxNzczMSwianRpIjoiT0pmZG9DU1ROanlMZUdJRyIsInN1YiI6IjYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7ip6Dehihm4LYrH3JswTQsgeFy1TyyGpSgKRJGjYMzc"
+                    }
+                ],
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "{\n        categories {\n            id\n            name\n            subcategories{\n                id\n                name\n                description\n            }\n        }\n    }"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Products",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "{\n  products(first: 5, search: \"minima\", sortBy: PRICE_ASC) {\n    data {\n      id\n      name\n      description\n      price\n      category_id\n      stock\n      image_url\n      created_at\n    }\n  }\n}"
+                    }
+                }
+            }
+        },
+        {
+            "name": "login",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/api/login",
+                    "path": [
+                        "api",
+                        "login"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvZ3JhcGhxbCIsImlhdCI6MTcyMzgxMzU3NSwiZXhwIjoxNzIzODE3MTc1LCJuYmYiOjE3MjM4MTM1NzUsImp0aSI6IkxoNm85U3BQWklXbEZtRXUiLCJzdWIiOiI3MSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.EA-O4ajyKlrcke3q11T3yemXKNHQ1lCCcYGyY2qmUz4",
+                        "disabled": true
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"email\": \"yousefyasser@gmal.com\",\n  \"password\": \"Password1\"\n}"
+                }
+            }
+        },
+        {
+            "name": "register",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "mutation ($input: CreateUserInput!) {\n  registerUser(input: $input) \n}",
+                        "variables": "{\n  \"input\": {\n    \"name\": \"John Doe\",\n    \"email\": \"yousefyasser@gmal.com\",\n    \"password\": \"Password1\",\n    \"password_confirmation\": \"Password1\"\n  }\n}"
+                    }
+                }
+            }
+        }
+    ]
+}

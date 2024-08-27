@@ -1,0 +1,158 @@
+{
+    "info": {
+        "_postman_id": "becd6c09-a4af-4790-92db-b341e95de1b6",
+        "name": "User",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "createAddress",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvZ3JhcGhxbCIsImlhdCI6MTcyNDY4ODgxNSwiZXhwIjoxNzI0NjkyNDE1LCJuYmYiOjE3MjQ2ODg4MTUsImp0aSI6InhYWFZaSjI0dTRQeEJXTUwiLCJzdWIiOiI3IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.wHaCitHuYwe1viC0sCPa24Bi90HFUwS7e06_QaMIkyQ"
+                    }
+                ],
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "mutation ($addressData: CreateAddressInput!){\n  createAddress(addressData: $addressData)\n}",
+                        "variables": "{\n  \"addressData\": {\n    \"label\": \"a\",\n    \"recipient_name\": \"b\",\n    \"address_line_1\": \"c\",\n    \"address_line_2\": \"d\",\n    \"state\": \"e\",\n    \"city\": \"f\",\n    \"country\": \"g\",\n    \"postal_code\": \"h\",\n    \"phone_number\": \"i\"\n  }\n}"
+                    }
+                }
+            }
+        },
+        {
+            "name": "orderHistory",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvZ3JhcGhxbCIsImlhdCI6MTcyNDY4ODgxNSwiZXhwIjoxNzI0NjkyNDE1LCJuYmYiOjE3MjQ2ODg4MTUsImp0aSI6InhYWFZaSjI0dTRQeEJXTUwiLCJzdWIiOiI3IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.wHaCitHuYwe1viC0sCPa24Bi90HFUwS7e06_QaMIkyQ"
+                    }
+                ],
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "query ($status: String, $sort: String, $first: Int!, $page: Int) {\n  orderHistory(status: $status, sort: $sort, first: $first, page: $page) {\n    data {\n      id\n      status\n      total\n      items {\n        product {\n          id\n          name\n        }\n        quantity\n        price\n        total\n      }\n      address {\n        recipient_name\n        address_line_1\n        address_line_2\n        city\n        state\n        postal_code\n        country\n        phone_number\n      }\n      payment_method {\n        type\n        last_four\n      }\n      created_at\n      updated_at\n    }\n  }\n}",
+                        "variables": "{\n  \"status\": \"pending\",\n  \"sort\": \"total_desc\",\n  \"first\": 3,\n  \"page\": 1\n}"
+                    }
+                }
+            }
+        },
+        {
+            "name": "addToCart",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvZ3JhcGhxbCIsImlhdCI6MTcyNDY4ODgxNSwiZXhwIjoxNzI0NjkyNDE1LCJuYmYiOjE3MjQ2ODg4MTUsImp0aSI6InhYWFZaSjI0dTRQeEJXTUwiLCJzdWIiOiI3IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.wHaCitHuYwe1viC0sCPa24Bi90HFUwS7e06_QaMIkyQ"
+                    }
+                ],
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "mutation {\n  addToCart(product_id: 1, quantity: 4) {\n    id\n    name\n    price\n    stock\n  }\n}"
+                    }
+                }
+            }
+        },
+        {
+            "name": "checkout",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzI0MjIyNzQyLCJleHAiOjE3MjQyMjYzNDIsIm5iZiI6MTcyNDIyMjc0MiwianRpIjoidzVBVEVUdnJiZ0hxTHJYTiIsInN1YiI6IjYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.V-lTAk5rV2KqmCkviNTcVUImKUF8riVEoXn10HBTtrc"
+                    }
+                ],
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "mutation ($address_id: ID!, $payment_method_id: ID!){\n    checkout (address_id: $address_id, payment_method_id: $payment_method_id)\n}",
+                        "variables": "{\n  \"address_id\": 1,\n  \"payment_method_id\": 1\n}"
+                    }
+                }
+            }
+        },
+        {
+            "name": "verifyEmail",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/graphql",
+                    "path": [
+                        "graphql"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvZ3JhcGhxbCIsImlhdCI6MTcyNDY4ODgxNSwiZXhwIjoxNzI0NjkyNDE1LCJuYmYiOjE3MjQ2ODg4MTUsImp0aSI6InhYWFZaSjI0dTRQeEJXTUwiLCJzdWIiOiI3IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.wHaCitHuYwe1viC0sCPa24Bi90HFUwS7e06_QaMIkyQ"
+                    }
+                ],
+                "body": {
+                    "mode": "graphql",
+                    "graphql": {
+                        "query": "mutation {\n    verifyEmail\n}"
+                    }
+                }
+            }
+        }
+    ]
+}

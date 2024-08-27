@@ -1,0 +1,117 @@
+{
+    "info": {
+        "_postman_id": "042a777b-9d8f-4bce-87e6-33399fa50faa",
+        "name": "Admin",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "admin create products",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/api/products/create",
+                    "path": [
+                        "api",
+                        "products",
+                        "create"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzI0MjE3NzMxLCJleHAiOjE3MjQyMjEzMzEsIm5iZiI6MTcyNDIxNzczMSwianRpIjoiT0pmZG9DU1ROanlMZUdJRyIsInN1YiI6IjYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7ip6Dehihm4LYrH3JswTQsgeFy1TyyGpSgKRJGjYMzc"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"name\": \"milk\",\n  \"description\":\"this is dairy\",\n  \"price\": 45.5,\n  \"category_id\": 6,\n  \"stock\" : 5\n}"
+                }
+            }
+        },
+        {
+            "name": "admin create category",
+            "request": {
+                "method": "POST",
+                "url": {
+                    "raw": "http://localhost:8000/api/categories/create",
+                    "path": [
+                        "api",
+                        "categories",
+                        "create"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2xvZ2luIiwiaWF0IjoxNzI0MjE3NzMxLCJleHAiOjE3MjQyMjEzMzEsIm5iZiI6MTcyNDIxNzczMSwianRpIjoiT0pmZG9DU1ROanlMZUdJRyIsInN1YiI6IjYiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.7ip6Dehihm4LYrH3JswTQsgeFy1TyyGpSgKRJGjYMzc"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    },
+                    "raw": "{\n  \"name\": \"Milk\",\n  \"description\": \"This is Milk\",\n  \"parent_id\": 1\n}"
+                }
+            }
+        },
+        {
+            "name": "orders listing",
+            "request": {
+                "method": "GET",
+                "url": {
+                    "raw": "http://localhost:8000/api/orders?page=1&sort=total_asc&status=pending",
+                    "query": [
+                        {
+                            "key": "page",
+                            "value": "1"
+                        },
+                        {
+                            "key": "sort",
+                            "value": "total_asc"
+                        },
+                        {
+                            "key": "status",
+                            "value": "pending"
+                        }
+                    ],
+                    "variable": [],
+                    "path": [
+                        "api",
+                        "orders"
+                    ],
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8000"
+                },
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvZ3JhcGhxbCIsImlhdCI6MTcyNDY4ODgxNSwiZXhwIjoxNzI0NjkyNDE1LCJuYmYiOjE3MjQ2ODg4MTUsImp0aSI6InhYWFZaSjI0dTRQeEJXTUwiLCJzdWIiOiI3IiwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.wHaCitHuYwe1viC0sCPa24Bi90HFUwS7e06_QaMIkyQ"
+                    }
+                ]
+            }
+        }
+    ]
+}
