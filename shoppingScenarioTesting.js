@@ -1,6 +1,6 @@
 import http from "k6/http";
 
-const appUrl = "http://host.docker.internal:8000";
+const appUrl = "http://localhost:8000";
 
 export const options = {
     stages: [

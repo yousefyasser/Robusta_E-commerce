@@ -16,7 +16,9 @@ final readonly class OrderHistory
      */
     public function __invoke(null $_, array $args): Builder
     {
-        $orderQuery = Order::query();
+        $userId = Auth::id();
+        $orderQuery = Order::query()->where('user_id', $userId);
+
 
         if (isset($args['status'])) {
             $orderQuery->where('status', $args['status']);

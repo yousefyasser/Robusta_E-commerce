@@ -11,16 +11,10 @@
             "request": {
                 "method": "POST",
                 "url": {
-                    "raw": "http://localhost:8000/api/products/create",
-                    "path": [
-                        "api",
-                        "products",
-                        "create"
-                    ],
+                    "raw": "http://localhost:8000/api/products",
+                    "path": ["api", "products", "create"],
                     "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
+                    "host": ["localhost"],
                     "port": "8000"
                 },
                 "header": [
@@ -45,16 +39,10 @@
             "request": {
                 "method": "POST",
                 "url": {
-                    "raw": "http://localhost:8000/api/categories/create",
-                    "path": [
-                        "api",
-                        "categories",
-                        "create"
-                    ],
+                    "raw": "http://localhost:8000/api/categories",
+                    "path": ["api", "categories", "create"],
                     "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
+                    "host": ["localhost"],
                     "port": "8000"
                 },
                 "header": [
@@ -95,14 +83,9 @@
                         }
                     ],
                     "variable": [],
-                    "path": [
-                        "api",
-                        "orders"
-                    ],
+                    "path": ["api", "orders"],
                     "protocol": "http",
-                    "host": [
-                        "localhost"
-                    ],
+                    "host": ["localhost"],
                     "port": "8000"
                 },
                 "header": [

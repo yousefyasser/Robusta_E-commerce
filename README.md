@@ -168,7 +168,7 @@ All REST API endpoints are for admins only except Login.
         Create Category
     </summary>
 
--   **URL**: POST /api/categories/create
+-   **URL**: POST /api/categories
 -   **Description**: Creates a new Category.
 -   **Request Body**:
     ```json
@@ -197,7 +197,7 @@ All REST API endpoints are for admins only except Login.
         Create Product
     </summary>
 
--   **URL**: POST /api/products/create
+-   **URL**: POST /api/products
 -   **Description**: Creates a new Product.
 -   **Request Body**
     ```json

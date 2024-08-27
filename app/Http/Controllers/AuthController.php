@@ -6,9 +6,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class SessionController extends Controller
+class AuthController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function login(Request $request): JsonResponse
     {
         $credentials = $request->only('email', 'password');
         $token = Auth::attempt($credentials);

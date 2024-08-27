@@ -19,16 +19,16 @@ class ProductTest extends TestCase
         $this->seed();
         $newProduct = Product::factory()->make()->toArray();
 
-        $this->post('/api/products/create', $newProduct)->assertStatus(401);
+        $this->post('/api/products', $newProduct)->assertStatus(401);
 
         $this->login('user');
-        $this->post('/api/products/create', $newProduct)->assertStatus(401);
+        $this->post('/api/products', $newProduct)->assertStatus(401);
     }
 
     public function test_create_product_validation()
     {
         $this->login('admin');
-        $this->post('/api/products/create', [])->assertStatus(422);
+        $this->post('/api/products', [])->assertStatus(422);
     }
 
     public function test_create_product_successfully()
@@ -38,7 +38,7 @@ class ProductTest extends TestCase
         $newProduct = Product::factory()->make()->toArray();
 
         $this->login('admin');
-        $this->post('/api/products/create', $newProduct)->assertStatus(200);
+        $this->post('/api/products', $newProduct)->assertStatus(200);
         $this->assertCount($prevProductCount + 1, Product::all());
     }
 

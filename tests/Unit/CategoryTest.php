@@ -17,10 +17,10 @@ class CategoryTest extends TestCase
     {
         $categoryData = Category::factory()->make()->toArray();
 
-        $this->postJson('/api/categories/create', $categoryData)->assertStatus(401);
+        $this->postJson('/api/categories', $categoryData)->assertStatus(401);
 
         $this->login('user');
-        $this->postJson('/api/categories/create', $categoryData)->assertStatus(401);
+        $this->postJson('/api/categories', $categoryData)->assertStatus(401);
     }
 
     public function test_create_category_validation()
@@ -29,9 +29,9 @@ class CategoryTest extends TestCase
 
         $categoryData = Category::factory()->make(['parent_id' => 1])->toArray();
 
-        $this->postJson('/api/categories/create', [])->assertStatus(422);
+        $this->postJson('/api/categories', [])->assertStatus(422);
 
-        $this->postJson('/api/categories/create', $categoryData)->assertStatus(422);
+        $this->postJson('/api/categories', $categoryData)->assertStatus(422);
     }
 
     public function test_create_category_successfully()
@@ -40,7 +40,7 @@ class CategoryTest extends TestCase
 
         $categoryData = Category::factory()->make()->toArray();
 
-        $this->postJson('/api/categories/create', $categoryData)->assertStatus(200);
+        $this->postJson('/api/categories', $categoryData)->assertStatus(200);
 
         $this->assertCount(1, Category::all());
     }
