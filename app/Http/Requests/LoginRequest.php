@@ -54,7 +54,7 @@ class LoginRequest extends FormRequest
     /**
      * Attempt to authenticate the request's credentials.
      *
-     * @return string|null
+     * @return string|bool
      */
     public function authenticate()
     {

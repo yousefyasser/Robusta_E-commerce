@@ -1,6 +1,6 @@
 import http from "k6/http";
 
-const appUrl = "http://localhost:8000";
+const appUrl = "http://web-server:8000";
 
 export const options = {
     stages: [

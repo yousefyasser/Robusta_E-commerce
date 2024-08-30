@@ -8,10 +8,8 @@
 -   [⚙️ Getting Started](#user-content-%EF%B8%8F-getting-started)
     -   [Installation](#user-content-installation)
     -   [Configuration](#user-content-configuration)
-    -   [Application Setup](#user-content-application-setup)
     -   [Running the Application](#user-content-running-the-application)
     -   [Running the Daily Report](#user-content-running-the-daily-report)
-    -   [Running Static Code Analysis](#user-content-running-static-code-analysis)
     -   [Running Tests](#user-content-running-tests)
 -   [📚 API Documentation](#user-content--api-documentation)
     -   [REST API Endpoints](#user-content-rest-api-endpoints)
@@ -36,10 +34,10 @@ This documentation provides an overview of the E-Commerce API, including the ava
 
 ## 💻 Technologies Used
 
--   **Backend**: PHP, Laravel
--   **Database**: MySQL
--   **Testing**: Pest
--   **Static Code Analysis**: PHPStan
+-   **Backend**: PHP v8.3.9, Laravel 11
+-   **Database**: MySQL v8.3.0
+-   **Testing**: Pest v2.35
+-   **Static Code Analysis**: PHPStan v1.11
 
 ## ⚙️ Getting Started
 
@@ -50,12 +48,6 @@ This documentation provides an overview of the E-Commerce API, including the ava
     ```bash
     git clone https://gitlab.com/yousefyasser/e-commerce.git
     cd e-commerce
-    ```
-
-2. **Install dependencies:**
-
-    ```bash
-    composer install
     ```
 
 ### Configuration
@@ -70,27 +62,12 @@ This documentation provides an overview of the E-Commerce API, including the ava
 
     Update the `.env` file with your database, mail, and other configuration settings.
 
-### Application Setup
-
-1. **Run the migrations to set up the database schema:**
-
-    ```bash
-    php artisan migrate --seed
-    ```
-
-2. **Generate Laravel app key & JWT secret key:**
-
-    ```bash
-    php artisan key:generate
-    php artisan jwt:secret
-    ```
-
 ### Running the Application
 
--   Start the application using the built-in PHP server:
+-   Run the application by building docker images and starting docker containers:
 
     ```bash
-    php artisan serve
+    docker compose up -d
     ```
 
 ### Running the daily report
@@ -98,23 +75,16 @@ This documentation provides an overview of the E-Commerce API, including the ava
 -   The daily report is a command I created that sends an email every midnight to admin users with a summary of orders made in previous day, attached to the email is a spreadsheet containing each orders' details.
 
     ```bash
-    php artisan app:send-orders-report
-    ```
-
-### Running Static Code Analysis
-
--   To run the static code analysis using phpstan:
-
-    ```bash
-    vendor/bin/phpstan analyse --memory-limit=1G
+    docker compose exec web-server php artisan app:send-orders-report
     ```
 
 ### Running Tests
 
--   To run the unit tests using Pest:
+-   To run the unit tests, performance tests, and static code analysis:
 
     ```bash
-    php artisan test
+    chmod +x run_tests.sh
+    bash run_tests.sh
     ```
 
 ## 📚 API Documentation

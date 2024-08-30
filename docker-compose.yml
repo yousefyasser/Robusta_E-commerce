@@ -1,0 +1,54 @@
+services:
+    db:
+        image: mysql:latest
+        container_name: db
+        networks:
+            - "app-network"
+        volumes:
+            - mysql_data:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: ${DB_USERNAME}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+
+    web-server:
+        build: .
+        container_name: web-server
+        networks:
+            - "app-network"
+        volumes:
+            - .:/var/www/html
+        ports:
+            - "8000:8000"
+        depends_on:
+            db:
+                condition: service_healthy
+        env_file: .env
+
+    k6:
+        image: grafana/k6
+        container_name: k6
+        networks:
+            - "app-network"
+        volumes:
+            - ./tests/Performance:/tests/Performance
+        depends_on:
+            - web-server
+        command: ["run", "/tests/Performance/shoppingScenarioTesting.js"]
+        profiles:
+            - performance-tests
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mysql_data:

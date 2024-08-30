@@ -24,8 +24,10 @@ class OrderRequest extends FormRequest
      */
     public function rules(): array
     {
+        /** @var string */
+        $sortInput = $this->input('sort');
         $columns = Schema::getColumnListing('orders');
-        $sortColumn = explode('_', $this->input('sort'))[0] ?? null;
+        $sortColumn = explode('_', $sortInput)[0] ?? null;
 
         if ($sortColumn && !in_array($sortColumn, $columns)) {
             return [

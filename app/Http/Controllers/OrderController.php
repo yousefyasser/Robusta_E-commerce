@@ -12,7 +12,7 @@ class OrderController extends Controller
     /**
      * Retrieve a paginated list of orders based on the provided request parameters.
      *
-     * @param Request $request.
+     * @param OrderRequest $request.
      * @return JsonResponse
      */
     public function index(OrderRequest $request): JsonResponse
